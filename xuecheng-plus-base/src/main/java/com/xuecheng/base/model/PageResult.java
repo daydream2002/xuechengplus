@@ -1,7 +1,9 @@
 package com.xuecheng.base.model;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.hibernate.validator.constraints.pl.REGON;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,18 +15,13 @@ import java.util.List;
  * @date 2023/2/11 15:40
  */
 @Data
-@ToString
 public class PageResult<T> implements Serializable {
-
     // 数据列表
     private List<T> items;
-
     //总记录数
     private long counts;
-
     //当前页码
     private long page;
-
     //每页记录数
     private long pageSize;
 
@@ -34,6 +31,4 @@ public class PageResult<T> implements Serializable {
         this.page = page;
         this.pageSize = pageSize;
     }
-
-
 }
