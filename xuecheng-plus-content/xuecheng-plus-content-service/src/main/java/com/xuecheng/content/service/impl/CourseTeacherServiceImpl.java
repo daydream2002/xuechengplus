@@ -57,5 +57,13 @@ public class CourseTeacherServiceImpl implements CourseTeacherService {
 
     }
 
+    @Override
+    public void deleteCourseTeacher(Long companyId, Long courseId, Long teacherId) {
+        if (!courseBaseMapper.selectById(courseId).getCompanyId().equals(companyId)) {
+            XueChengPlusException.cast("只允许机构在自己的课程中删除教师信息");
+        }
+        courseTeacherMapper.deleteById(teacherId);
+    }
+
 
 }

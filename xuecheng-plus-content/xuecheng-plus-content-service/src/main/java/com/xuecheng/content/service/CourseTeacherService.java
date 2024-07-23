@@ -15,4 +15,5 @@ public interface CourseTeacherService {
     CourseTeacher saveCourseTeacher(Long companyId,CourseTeacher courseTeacher);
 
 
+    void deleteCourseTeacher(Long companyId, Long courseId, Long teacherId);
 }

@@ -5,15 +5,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xuecheng.base.exception.XueChengPlusException;
 import com.xuecheng.base.model.PageParams;
 import com.xuecheng.base.model.PageResult;
-import com.xuecheng.content.mapper.CourseBaseMapper;
-import com.xuecheng.content.mapper.CourseCategoryMapper;
-import com.xuecheng.content.mapper.CourseMarketMapper;
+import com.xuecheng.content.mapper.*;
 import com.xuecheng.content.model.dto.AddCourseDto;
 import com.xuecheng.content.model.dto.CourseBaseInfoDto;
+import com.xuecheng.content.model.dto.EditCourseDto;
 import com.xuecheng.content.model.dto.QueryCourseParamsDto;
-import com.xuecheng.content.model.po.CourseBase;
-import com.xuecheng.content.model.po.CourseCategory;
-import com.xuecheng.content.model.po.CourseMarket;
+import com.xuecheng.content.model.po.*;
 import com.xuecheng.content.service.CourseBaseInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.IntBuffer;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -39,6 +37,12 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
     private CourseCategoryMapper courseCategoryMapper;
     @Autowired
     private CourseMarketMapper courseMarketMapper;
+    @Autowired
+    private TeachplanMapper teachplanMapper;
+    @Autowired
+    private TeachplanMediaMapper teachplanMediaMapper;
+    @Autowired
+    private CourseTeacherMapper courseTeacherMapper;
 
     @Transactional
     @Override
@@ -115,15 +119,64 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
         return courseBaseInfo;
     }
 
+    @Override
+    public CourseBaseInfoDto getCourseBaseById(Long courseId) {
+        return getCourseBaseInfo(courseId);
+    }
+
+    @Override
+    @Transactional
+    public CourseBaseInfoDto modifyCourseBase(Long companyId, EditCourseDto editCourseDto) {
+        Long courseId = editCourseDto.getId();
+        CourseBase courseBase = courseBaseMapper.selectById(courseId);
+        if (courseBase == null) {
+            XueChengPlusException.cast("课程不存在");
+        }
+        if (!companyId.equals(courseBase.getCompanyId())) {
+            XueChengPlusException.cast("只能修改本机构自己的数据");
+        }
+
+
+        BeanUtils.copyProperties(editCourseDto, courseBase);
+        courseBase.setCreateDate(LocalDateTime.now());
+        courseBaseMapper.updateById(courseBase);
+
+
+        CourseMarket courseMarket = new CourseMarket();
+        BeanUtils.copyProperties(editCourseDto, courseMarket);
+        saveCourseMarket(courseMarket);
+
+        return getCourseBaseInfo(courseId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCourseBase(Long courseId) {
+        CourseBase courseBase = courseBaseMapper.selectById(courseId);
+        if (!courseBase.getStatus().equals("203001")) {
+            XueChengPlusException.cast("只能删除未发布的课程信息");
+        }
+        //删除课程基本信息
+        courseBaseMapper.deleteById(courseId);
+        //删除课程营销信息
+        courseMarketMapper.deleteById(courseId);
+        //删除课程计划
+        teachplanMapper.delete(new LambdaQueryWrapper<Teachplan>().eq(Teachplan::getCourseId, courseId));
+        //删除课程计划关联信息
+        teachplanMediaMapper.delete(new LambdaQueryWrapper<TeachplanMedia>().eq(TeachplanMedia::getCourseId, courseId));
+        //删除课程师资信息
+        courseTeacherMapper.delete(new LambdaQueryWrapper<CourseTeacher>().eq(CourseTeacher::getCourseId, courseId));
+    }
+
+
     private CourseBaseInfoDto getCourseBaseInfo(Long id) {
         CourseBase courseBase = courseBaseMapper.selectById(id);
+        CourseBaseInfoDto courseBaseInfoDto = new CourseBaseInfoDto();
         if (courseBase == null)
             return null;
         CourseMarket courseMarket = courseMarketMapper.selectById(id);
-        if (courseMarket==null)
-            return null;
-        CourseBaseInfoDto courseBaseInfoDto = new CourseBaseInfoDto();
-        BeanUtils.copyProperties(courseMarket, courseBaseInfoDto);
+        if (courseMarket != null)
+            BeanUtils.copyProperties(courseMarket, courseBaseInfoDto);
         BeanUtils.copyProperties(courseBase, courseBaseInfoDto);
         courseBaseInfoDto.setMtName(courseCategoryMapper.selectById(courseBaseInfoDto.getMt()).getName());
         courseBaseInfoDto.setStName(courseCategoryMapper.selectById(courseBaseInfoDto.getSt()).getName());

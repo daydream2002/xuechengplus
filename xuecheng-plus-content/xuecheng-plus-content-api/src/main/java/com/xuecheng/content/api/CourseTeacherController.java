@@ -27,10 +27,17 @@ public class CourseTeacherController {
         return courseTeacherService.list(courseId);
     }
 
-    @ApiOperation("教师添加接口")
+    @ApiOperation("教师添加与修改接口")
     @PostMapping("/courseTeacher")
     public CourseTeacher saveCourseTeacher(@RequestBody CourseTeacher courseTeacher) {
         Long companyId = 1232141425L;
         return courseTeacherService.saveCourseTeacher(companyId, courseTeacher);
+    }
+
+    @ApiOperation("教师删除接口")
+    @DeleteMapping("/courseTeacher/course/{courseId}/{teacherId}")
+    public void deleteCourseTeacher(@PathVariable Long courseId, @PathVariable Long teacherId) {
+        Long companyId = 1232141425L;
+         courseTeacherService.deleteCourseTeacher(companyId, courseId, teacherId);
     }
 }
