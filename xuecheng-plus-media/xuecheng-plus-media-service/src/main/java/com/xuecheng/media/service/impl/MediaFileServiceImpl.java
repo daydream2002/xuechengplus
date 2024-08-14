@@ -114,7 +114,7 @@ public class MediaFileServiceImpl implements MediaFileService {
      * @return
      */
 
-    private boolean addMediaFileToMinio(String localFilePath, String mimeType, String bucket, String objectName) {
+    public boolean addMediaFileToMinio(String localFilePath, String mimeType, String bucket, String objectName) {
         try {
             UploadObjectArgs uploadObjectArgs = UploadObjectArgs.builder()
                     .bucket(bucket)
