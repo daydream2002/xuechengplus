@@ -91,13 +91,13 @@ public class VideoTask {
                                 mediaFileProcessService.saveProcessFinishStatus(taskId, "3", fileId, null, "视频转码失败");
                                 return;
                             }
-                            boolean b1 = mediaFileService.addMediaFileToMinio(mp4File.getAbsolutePath(), "video/mp4", bucket, getFilePath(fileId,".mp4"));
+                            boolean b1 = mediaFileService.addMediaFileToMinio(mp4File.getAbsolutePath(), "video/mp4", bucket, getFilePath(fileId, ".mp4"));
                             if (!b1) {
                                 log.debug("上传文件mp4到minio失败");
                                 mediaFileProcessService.saveProcessFinishStatus(taskId, "3", fileId, null, "上传文件到minio失败");
                                 return;
                             }
-                            String url = getFilePath(fileId, ".mp4");
+                            String url = "/" + bucket + "/" + getFilePath(fileId, ".mp4");
                             mediaFileProcessService.saveProcessFinishStatus(taskId, "2", fileId, url, "");
                         } finally {
                             //计数器减1
