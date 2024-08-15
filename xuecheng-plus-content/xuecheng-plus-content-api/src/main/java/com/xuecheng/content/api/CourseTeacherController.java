@@ -38,6 +38,6 @@ public class CourseTeacherController {
     @DeleteMapping("/courseTeacher/course/{courseId}/{teacherId}")
     public void deleteCourseTeacher(@PathVariable Long courseId, @PathVariable Long teacherId) {
         Long companyId = 1232141425L;
-         courseTeacherService.deleteCourseTeacher(companyId, courseId, teacherId);
+        courseTeacherService.deleteCourseTeacher(companyId, courseId, teacherId);
     }
 }

@@ -2,7 +2,6 @@ package com.xuecheng.base.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.ToString;
 
 /**
  * @author Mr.M
@@ -19,6 +18,10 @@ public class PageParams {
     //每页显示记录数
     @ApiModelProperty("每页记录数")
     private Long pageSize = 30L;
+
+    public PageParams() {
+
+    }
 
     public PageParams(Long pageSize, Long pageNo) {
         this.pageSize = pageSize;
