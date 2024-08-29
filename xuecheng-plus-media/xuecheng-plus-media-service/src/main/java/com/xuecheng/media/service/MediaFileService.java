@@ -7,10 +7,8 @@ import com.xuecheng.media.model.dto.QueryMediaParamsDto;
 import com.xuecheng.media.model.dto.UploadFileParamsDto;
 import com.xuecheng.media.model.dto.UploadFileResultDto;
 import com.xuecheng.media.model.po.MediaFiles;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * @author Mr.M
@@ -20,6 +18,8 @@ import java.util.List;
  */
 public interface MediaFileService {
 
+
+    MediaFiles getFileById(String mediaId);
     /**
      * @param pageParams          分页参数
      * @param queryMediaParamsDto 查询条件

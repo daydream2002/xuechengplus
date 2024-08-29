@@ -17,7 +17,6 @@ import com.xuecheng.media.model.po.MediaFiles;
 import com.xuecheng.media.model.po.MediaProcess;
 import com.xuecheng.media.service.MediaFileService;
 import io.minio.*;
-import io.minio.errors.*;
 import io.minio.messages.DeleteError;
 import io.minio.messages.DeleteObject;
 import lombok.extern.slf4j.Slf4j;
@@ -31,12 +30,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -65,6 +61,12 @@ public class MediaFileServiceImpl implements MediaFileService {
     private String bucket_video;
     @Autowired
     private MediaProcessMapper mediaProcessMapper;
+
+    @Override
+    public MediaFiles getFileById(String mediaId) {
+        MediaFiles mediaFiles = mediaFilesMapper.selectById(mediaId);
+        return mediaFiles;
+    }
 
     @Override
     public PageResult<MediaFiles> queryMediaFiels(Long companyId, PageParams pageParams, QueryMediaParamsDto queryMediaParamsDto) {
