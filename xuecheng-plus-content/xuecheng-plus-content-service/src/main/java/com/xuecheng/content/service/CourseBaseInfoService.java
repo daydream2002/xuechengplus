@@ -21,7 +21,7 @@ public interface CourseBaseInfoService {
      * @param courseParamsDto 查询条件
      * @return 查询结果
      */
-    public PageResult<CourseBase> queryCourseBase(PageParams pageParams, QueryCourseParamsDto courseParamsDto);
+    PageResult<CourseBase> queryCourseBase(PageParams pageParams, QueryCourseParamsDto courseParamsDto);
 
     /**
      * 添加课程信息
@@ -30,7 +30,7 @@ public interface CourseBaseInfoService {
      * @param addCourseDto
      * @return
      */
-    public CourseBaseInfoDto createCourseBase(Long companyId, AddCourseDto addCourseDto);
+    CourseBaseInfoDto createCourseBase(Long companyId, AddCourseDto addCourseDto);
 
     /**
      * 根据课程id查询课程信息
@@ -38,15 +38,16 @@ public interface CourseBaseInfoService {
      * @param courseId
      * @return
      */
-    public CourseBaseInfoDto getCourseBaseById(Long courseId);
+    CourseBaseInfoDto getCourseBaseById(Long courseId);
 
     /**
      * 根据id修改课程信息
+     *
      * @param companyId
      * @param editCourseDto
      * @return
      */
-    public CourseBaseInfoDto modifyCourseBase(Long companyId, EditCourseDto editCourseDto);
+    CourseBaseInfoDto modifyCourseBase(Long companyId, EditCourseDto editCourseDto);
 
     void deleteCourseBase(Long courseId);
 }
