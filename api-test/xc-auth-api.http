@@ -21,3 +21,5 @@ POST {{auth_host}}/auth/oauth/check_token?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX
 ################扩展认证请求参数后######################
 ###密码模式
 POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username={"username":"stu1","password":"111111","checkcode":"1ZBW","checkcodekey":"checkcode:e687a29c64614533a1b94d82a27ddd3e","authType":"password"}
+###密码模式
+GET {{auth_host}}/auth/wxLogin

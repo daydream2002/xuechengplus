@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Description
  * Date 2024/9/14 11:03
  */
-@FeignClient(value = "checkcode",fallbackFactory = CheckCodeClientFactory.class)
+@FeignClient(value = "checkcode", fallbackFactory = CheckCodeClientFactory.class)
 @RequestMapping("/checkcode")
 public interface CheckCodeClient {
     @PostMapping(value = "/verify")
-    public Boolean verify(@RequestParam("key") String key,@RequestParam("code") String code);
+    public Boolean verify(@RequestParam("key") String key, @RequestParam("code") String code);
 }
