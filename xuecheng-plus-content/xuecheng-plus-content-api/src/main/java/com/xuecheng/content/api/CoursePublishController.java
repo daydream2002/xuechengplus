@@ -1,6 +1,7 @@
 package com.xuecheng.content.api;
 
 import com.xuecheng.content.model.dto.CoursePreviewDto;
+import com.xuecheng.content.model.po.CoursePublish;
 import com.xuecheng.content.service.CoursePublishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,5 +41,10 @@ public class CoursePublishController {
         coursePublishService.publish(companyId, courseId);
     }
 
-
+    @ResponseBody
+    @GetMapping("/r/coursepublish/{courseId}")
+    public CoursePublish getCoursepublish(@PathVariable("courseId") Long courseId) {
+        CoursePublish coursePublish = coursePublishService.getCoursePublish(courseId);
+        return coursePublish;
+    }
 }

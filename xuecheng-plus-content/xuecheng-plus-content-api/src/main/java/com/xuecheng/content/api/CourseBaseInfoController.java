@@ -14,13 +14,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Mr.M
@@ -35,9 +33,12 @@ public class CourseBaseInfoController {
     CourseBaseInfoService courseBaseInfoService;
 
     @ApiOperation("课程查询接口")
+    @PreAuthorize("hasAnyAuthority('xc_teachmanager_course_list')")
     @PostMapping("/course/list")
     public PageResult<CourseBase> list(PageParams pageParams, @RequestBody(required = false) QueryCourseParamsDto queryCourseParamsDto) {
-        return courseBaseInfoService.queryCourseBase(pageParams, queryCourseParamsDto);
+        SecurityUtil.XcUser user = SecurityUtil.getUser();
+        String companyId = user.getCompanyId();
+        return courseBaseInfoService.queryCourseBase(Long.parseLong(companyId),pageParams, queryCourseParamsDto);
 
     }
 

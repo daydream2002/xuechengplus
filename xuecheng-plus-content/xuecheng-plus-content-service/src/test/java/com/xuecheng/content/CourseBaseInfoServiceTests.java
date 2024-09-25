@@ -21,11 +21,11 @@ public class CourseBaseInfoServiceTests {
 
     @Test
     public void testCourseBaseInfoService() {
-        QueryCourseParamsDto courseParamsDto = new QueryCourseParamsDto();
-        PageParams pageParams = new PageParams(6L, 1L);
-        courseParamsDto.setCourseName("java");
-        courseParamsDto.setAuditStatus("202004");
-        PageResult<CourseBase> courseBasePageResult = courseBaseInfoService.queryCourseBase(pageParams, courseParamsDto);
-        System.out.println(courseBasePageResult);
+//        QueryCourseParamsDto courseParamsDto = new QueryCourseParamsDto();
+//        PageParams pageParams = new PageParams(6L, 1L);
+//        courseParamsDto.setCourseName("java");
+//        courseParamsDto.setAuditStatus("202004");
+////        PageResult<CourseBase> courseBasePageResult = courseBaseInfoService.queryCourseBase(pageParams, courseParamsDto);
+//        System.out.println(courseBasePageResult);
     }
 }

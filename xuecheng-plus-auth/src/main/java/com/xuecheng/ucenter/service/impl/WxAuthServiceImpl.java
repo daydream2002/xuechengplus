@@ -38,10 +38,10 @@ public class WxAuthServiceImpl implements AuthService, WxAuthService {
     RestTemplate restTemplate;
     @Autowired
     WxAuthServiceImpl currentProxy;
-    @Value("${weixin.appid}")
-    String appid;
-    @Value("${weixin.secret}")
-    String secret;
+//    @Value("${weixin.appid}")
+//    String appid;
+//    @Value("${weixin.secret}")
+//    String secret;
     @Autowired
     private XcUserRoleMapper xcUserRoleMapper;
 
@@ -75,7 +75,7 @@ public class WxAuthServiceImpl implements AuthService, WxAuthService {
     private Map<String, String> getAccess_token(String code) {
         //根据code获取accesstoken
         String wxUrl_template = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code";
-        String wxUrl = String.format(wxUrl_template, appid, secret, code);
+        String wxUrl = String.format(wxUrl_template, null, null, code);
         ResponseEntity<String> exchange = restTemplate.exchange(wxUrl, HttpMethod.POST, null, String.class);
         String result = exchange.getBody();
         Map<String, String> resultMap = JSON.parseObject(result, Map.class);
